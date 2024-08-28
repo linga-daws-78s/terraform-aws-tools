@@ -28,7 +28,6 @@ fi
 #    echo -e "$G You are super user. $SCRIPT_NAME"
 
 # fi
-
 yum install fontconfig java-17-openjdk -y &>>$LOGFILE
 VALIDATE $? "Installing java-17 openjdk"
 
