@@ -1,59 +1,65 @@
 #!/bin/bash
-USERID=$(id -u)
-TIMESTAMP=$(date +%F-%H-%M-%S)
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
+yum install fontconfig java-17-openjdk -y
 
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
-echo  -e "$G Script started executing at:$TIMESTAMP $N"
 
-VALIDATE(){
-if [ $1 -ne 0 ]
-then 
-   echo -e "$R $2... FAITURE $N"
-   exit 1
-else
-   echo -e "$G $2..  SUCCESS $N"
-fi
-}
-# #checking root user or not.
-# if [ $USERID -ne 0 ]
-# then
-#    echo -e "$R Please run this script with root access $N"
+# #=========================
+
+# #!/bin/bash
+# USERID=$(id -u)
+# TIMESTAMP=$(date +%F-%H-%M-%S)
+# SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+# LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
+
+# R="\e[31m"
+# G="\e[32m"
+# Y="\e[33m"
+# N="\e[0m"
+# echo  -e "$G Script started executing at:$TIMESTAMP $N"
+
+# VALIDATE(){
+# if [ $1 -ne 0 ]
+# then 
+#    echo -e "$R $2... FAITURE $N"
 #    exit 1
 # else
-#    echo -e "$G You are super user. $SCRIPT_NAME"
-
+#    echo -e "$G $2..  SUCCESS $N"
 # fi
-yum install fontconfig java-17-openjdk -y &>>$LOGFILE
-VALIDATE $? "Installing java-17 openjdk"
+# }
+# # #checking root user or not.
+# # if [ $USERID -ne 0 ]
+# # then
+# #    echo -e "$R Please run this script with root access $N"
+# #    exit 1
+# # else
+# #    echo -e "$G You are super user. $SCRIPT_NAME"
 
-# curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
-# VALIDATE $? "Add the LTS Jenkins repository"
+# # fi
+# yum install fontconfig java-17-openjdk -y &>>$LOGFILE
+# VALIDATE $? "Installing java-17 openjdk"
 
-# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOGFILE
-# VALIDATE $? "Import the repo key"
+# # curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOGFILE
+# # VALIDATE $? "Add the LTS Jenkins repository"
 
-# yum upgrade -y &>>$LOGFILE
-# VALIDATE $? "Upgrading yum packages"
+# # rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOGFILE
+# # VALIDATE $? "Import the repo key"
 
-# sudo yum install fontconfig java-17-openjdk -y &>>$LOGFILE
-# VALIDATE $? "Add required dependencies - Installing Java 17 openjdk"
+# # yum upgrade -y &>>$LOGFILE
+# # VALIDATE $? "Upgrading yum packages"
 
-# yum install jenkins -y &>>$LOGFILE
-# VALIDATE $? "Add required dependencies - Installing Jenkins"
+# # sudo yum install fontconfig java-17-openjdk -y &>>$LOGFILE
+# # VALIDATE $? "Add required dependencies - Installing Java 17 openjdk"
 
-# systemctl daemon-reload &>>$LOGFILE
-# VALIDATE $? "Jenkins - Daemon reload"
+# # yum install jenkins -y &>>$LOGFILE
+# # VALIDATE $? "Add required dependencies - Installing Jenkins"
 
-# systemctl enable jenkins &>>$LOGFILE
-# VALIDATE $? "Enabling jenkins"
+# # systemctl daemon-reload &>>$LOGFILE
+# # VALIDATE $? "Jenkins - Daemon reload"
 
-# systemctl start jenkins &>>$LOGFILE
-# VALIDATE $? "Starting jenkins"
+# # systemctl enable jenkins &>>$LOGFILE
+# # VALIDATE $? "Enabling jenkins"
 
-# systemctl status jenkins &>>$LOGFILE
-# VALIDATE $? "Checking Jenkins installation Status"
+# # systemctl start jenkins &>>$LOGFILE
+# # VALIDATE $? "Starting jenkins"
+
+# # systemctl status jenkins &>>$LOGFILE
+# # VALIDATE $? "Checking Jenkins installation Status"
