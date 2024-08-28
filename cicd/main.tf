@@ -1,12 +1,12 @@
 module "jenkins_master" {
   source  = "terraform-aws-modules/ec2-instance/aws"
-
   name = "tf-jenkins-master"
 
   instance_type          = "t3.small"
-  vpc_security_group_ids = ["sg-092ff5452a39fc34b"]
-  subnet_id              = "subnet-0d295cd04ccf27520"
-  #ami                    = data.aws_ami.ami_info.id
+  vpc_security_group_ids = ["sg-092ff5452a39fc34b"] #replace your SG
+  subnet_id              = "subnet-0d295cd04ccf27520" #replace your Subnet
+  #enable_dns_hostnames = true
+  #ami                   = data.aws_ami.ami_info.id
   ami                    = "ami-041e2ea9402c46c32"
   user_data              = file("install_jenkins_master.sh")
 
@@ -21,9 +21,10 @@ module "jenkins_agent" {
   name = "tf-jenkins-agent"
 
   instance_type          = "t3.small"
-  vpc_security_group_ids = ["sg-092ff5452a39fc34b"]
-  subnet_id              = "subnet-0d295cd04ccf27520"
-  #ami                    = data.aws_ami.ami_info.id
+  vpc_security_group_ids = ["sg-092ff5452a39fc34b"] #replace your SG
+  subnet_id              = "subnet-0d295cd04ccf27520" #replace your Subnet
+  #enable_dns_hostnames = true
+  #ami                   = data.aws_ami.ami_info.id
   ami                    = "ami-041e2ea9402c46c32"
   user_data              = file("install_jenkins_agent.sh")
 
@@ -31,34 +32,32 @@ module "jenkins_agent" {
     Name   = "Jenkins-Agent"
   }
 }
-
-
 module "records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
   version = "~> 2.0"
   zone_name = var.zone_name
 
-records = [
-  {
-    name = "jenkins-master"
-    type = "A"
-    ttl  = 1
-    records = [
-      module.jenkins_master.public_ip
-    ]
-    allow_overwrite = true
-  },
-   {
-    name = "jenkins-agent"
-    type = "A"
-    ttl  = 1
-    records = [
-      module.jenkins_agent.private_ip
-    ]
-    allow_overwrite = true
-  }
 
-]
+records = [
+      {
+        name = "jenkins_master"
+        type = "A"
+        ttl  = 1
+        records = [
+          module.jenkins_master.public_ip
+        ]
+       # allow_overwrite = true
+      },
+      {
+        name = "jenkins_agent"
+        type = "A"
+        ttl  = 1
+        records = [
+          module.jenkins_agent.private_ip
+        ]
+        #allow_overwrite = true
+      }
+   ]
 }
 
 # module "records" {
