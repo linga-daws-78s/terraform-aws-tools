@@ -5,18 +5,15 @@ module "jenkins_master" {
   instance_type          = "t3.small"
   vpc_security_group_ids = ["sg-092ff5452a39fc34b"] #replace your SG
   subnet_id              = "subnet-0d295cd04ccf27520" #replace your Subnet
-  #enable_dns_hostnames = true
   #ami                   = data.aws_ami.ami_info.id
   ami                    = "ami-041e2ea9402c46c32"
   #user_data              = file("install_jenkins_master.sh")
-  #user_data              = "${file("install_jenkins_master.sh")}"
   user_data               = file("${path.module}/install_jenkins_master.sh")
 
   tags = {
     Name   = "Jenkins-Master"
   }
 }
-
 module "jenkins_agent" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
@@ -25,11 +22,9 @@ module "jenkins_agent" {
   instance_type          = "t3.small"
   vpc_security_group_ids = ["sg-092ff5452a39fc34b"] #replace your SG
   subnet_id              = "subnet-0d295cd04ccf27520" #replace your Subnet
-  #enable_dns_hostnames = true
   #ami                   = data.aws_ami.ami_info.id
   ami                    = "ami-041e2ea9402c46c32"
   #user_data              = file("install_jenkins_agent.sh")
-  #user_data              = "${file("install_jenkins_agent.sh")}"
   user_data               = file("${path.module}/install_jenkins_agent.sh")
 
   tags = {

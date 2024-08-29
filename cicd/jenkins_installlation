@@ -21,14 +21,14 @@ else
 fi
 }
 #checking root user or not.
-if [ $USERID -ne 0 ]
-then
-   echo -e "$R Please run this script with root access $N"
-   exit 1
-else
-   echo -e "$G You are super user. $SCRIPT_NAME"
+# if [ $USERID -ne 0 ]
+# then
+#    echo -e "$R Please run this script with root access $N"
+#    exit 1
+# else
+#    echo -e "$G You are super user. $SCRIPT_NAME"
 
-fi
+# fi
 
 yum update -y &>>$LOGFILE
 VALIDATE $? "Updating yum packages"
@@ -59,3 +59,58 @@ VALIDATE $? "Starting jenkins"
 
 systemctl status jenkins &>>$LOGFILE
 VALIDATE $? "Checking Jenkins installation Status"
+
+
+
+#======================
+
+# #!/bin/bash
+# curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+# yum install fontconfig java-17-openjdk jenkins -y
+# systemctl daemon-reload
+# systemctl enable jenkins
+# systemctl start jenkins
+
+
+
+For Agent Node
+===================
+
+#!/bin/bash
+USERID=$(id -u)
+TIMESTAMP=$(date +%F-%H-%M-%S)
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
+
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+echo  -e "$G Script started executing at:$TIMESTAMP $N"
+
+VALIDATE(){
+if [ $1 -ne 0 ]
+then 
+   echo -e "$R $2... FAITURE $N"
+   exit 1
+else
+   echo -e "$G $2..  SUCCESS $N"
+fi
+}
+#checking root user or not.
+# if [ $USERID -ne 0 ]
+# then
+#    echo -e "$R Please run this script with root access $N"
+#    exit 1
+# else
+#    echo -e "$G You are super user. $SCRIPT_NAME"
+
+# fi
+
+yum install fontconfig java-17-openjdk -y &>>$LOGFILE
+VALIDATE $? "Updating yum packages"
+
+
+
+
